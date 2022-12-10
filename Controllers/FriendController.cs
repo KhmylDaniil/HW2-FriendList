@@ -1,21 +1,27 @@
-﻿using HW2.Logic;
+﻿using HW2.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HW2.Controllers
 {
     public class FriendController : Controller
     {
+        readonly IFriendService _friendService;
+
+        public FriendController(IFriendService friendService)
+        {
+            _friendService = friendService;
+        }
+        
         // GET: FriendController
         public ActionResult Index()
         {
-            return View(FriendList.Friends);
+            return View(_friendService.GetFriends());
         }
 
         // GET: FriendController/Details/5
         public ActionResult Details(int id)
         {
-            var friend = FriendList.Friends.FirstOrDefault(x => x.FriendId == id) ?? throw new ArgumentException("no such id");
-
+            var friend = _friendService.Details(id);
             return View(friend);
         }
 
@@ -32,7 +38,8 @@ namespace HW2.Controllers
         {
             try
             {
-                FriendList.Friends.Add(FriendHandlers.CreateFriend(collection));
+                _friendService.CreateFriend(collection);
+                
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -54,7 +61,7 @@ namespace HW2.Controllers
         {
             try
             {
-                FriendHandlers.EditFriend(id, collection);
+                _friendService.EditFriend(id, collection);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -66,7 +73,7 @@ namespace HW2.Controllers
         // GET: FriendController/Delete/5
         public ActionResult Delete(int id)
         {
-            var friend = FriendList.Friends.FirstOrDefault(x => x.FriendId == id) ?? throw new ArgumentException("no such id");
+            var friend = _friendService.Details(id);
 
             return View(friend);
         }
@@ -78,7 +85,7 @@ namespace HW2.Controllers
         {
             try
             {
-                FriendHandlers.DeleteFriend(id);
+                _friendService.DeleteFriend(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

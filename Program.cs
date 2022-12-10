@@ -1,7 +1,20 @@
+using HW2.Interfaces;
+using HW2.Logic;
+using HW2.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+string connection = builder.Configuration.GetConnectionString("DBContext");
+
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connection));
+
+builder.Services.AddTransient<IApplicationContext, ApplicationContext>();
+
+builder.Services.AddTransient<IFriendService, FriendService>();
 
 var app = builder.Build();
 
@@ -23,5 +36,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
 app.Run();

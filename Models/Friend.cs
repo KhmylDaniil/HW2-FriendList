@@ -11,12 +11,5 @@
         public Friend()
         {
         }
-        
-        public Friend(string name, string place)
-        {
-            FriendId = FriendList.Count;
-            FriendName = name;
-            Place = place;
-        }
     }
 }
