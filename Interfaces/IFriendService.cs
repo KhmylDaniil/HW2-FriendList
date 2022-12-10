@@ -1,4 +1,5 @@
 ﻿using HW2.Models;
+using HW2.ViewModels.Friend;
 
 namespace HW2.Interfaces
 {
@@ -8,9 +9,9 @@ namespace HW2.Interfaces
 
         public Friend Details(int id);
 
-        public void CreateFriend(IFormCollection request);
+        public void CreateFriend(CreateFriendRequest request);
 
-        public void EditFriend(int id, IFormCollection request);
+        public void EditFriend(ChangeFriendRequest request);
 
         public void DeleteFriend(int id);
     }

@@ -1,4 +1,5 @@
 ﻿using HW2.Interfaces;
+using HW2.ViewModels.Friend;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HW2.Controllers
@@ -34,11 +35,11 @@ namespace HW2.Controllers
         // POST: FriendController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(CreateFriendRequest request)
         {
             try
             {
-                _friendService.CreateFriend(collection);
+                _friendService.CreateFriend(request);
                 
                 return RedirectToAction(nameof(Index));
             }
@@ -57,11 +58,11 @@ namespace HW2.Controllers
         // POST: FriendController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(ChangeFriendRequest request)
         {
             try
             {
-                _friendService.EditFriend(id, collection);
+                _friendService.EditFriend(request);
                 return RedirectToAction(nameof(Index));
             }
             catch

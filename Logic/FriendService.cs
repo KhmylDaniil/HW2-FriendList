@@ -1,5 +1,6 @@
 ﻿using HW2.Interfaces;
 using HW2.Models;
+using HW2.ViewModels.Friend;
 
 namespace HW2.Logic
 {
@@ -22,24 +23,20 @@ namespace HW2.Logic
             return _context.Friends.FirstOrDefault(x => x.FriendId == id) ?? throw new ArgumentException("no such id");
         }
 
-        public void CreateFriend(IFormCollection request)
+        public void CreateFriend(CreateFriendRequest request)
         {
-            CheckRequest(request, out string name, out string place);
-
-            _context.Friends.Add(new Friend() { FriendName = name, Place = place});
+            _context.Friends.Add(new Friend() { FriendName = request.FriendName, Place = request.Place});
 
             _context.SaveChanges();
         }
 
-        public void EditFriend(int id, IFormCollection request)
+        public void EditFriend(ChangeFriendRequest request)
         {
-            CheckRequest(request, out string name, out string place);
-
-            Friend friend = _context.Friends.FirstOrDefault(x => x.FriendId == id)
+            Friend friend = _context.Friends.FirstOrDefault(x => x.FriendId == request.Id)
                 ?? throw new ArgumentException("no such friend");
 
-            friend.FriendName = name;
-            friend.Place = place;
+            friend.FriendName = request.FriendName;
+            friend.Place = request.Place;
 
             _context.SaveChanges();
         }
@@ -51,15 +48,6 @@ namespace HW2.Logic
 
             _context.Friends.Remove(friend);
             _context.SaveChanges();
-        }
-
-        private static void CheckRequest(IFormCollection request, out string name, out string place)
-        {
-            if (request is null) throw new ArgumentNullException(nameof(request));
-
-            name = request["FriendName"];
-            place = request["Place"];
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(place)) throw new ArgumentException("invalid data");
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using HW2.Interfaces;
 using HW2.Models;
+using HW2.ViewModels.Friend;
 
 namespace HW2.Logic
 {
     public class StubFriendservice : IFriendService
     {
-        public void CreateFriend(IFormCollection request)
+        public void CreateFriend(CreateFriendRequest request)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +20,7 @@ namespace HW2.Logic
             throw new NotImplementedException();
         }
 
-        public void EditFriend(int id, IFormCollection request)
+        public void EditFriend(ChangeFriendRequest request)
         {
         }
 
